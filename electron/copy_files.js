@@ -31,21 +31,6 @@ clean('./CuraEngine');
 copyDirectorySync('../web/build-web', './build-web');
 copyDirectorySync('../server/build-server', './build-server');
 copyDirectorySync('../server/static/fonts', './static/fonts');
+// CuraEngine is AGPL-3.0 and is not shipped: the app downloads it into the user data dir on
+// first use (/CuraEngine/config below is only the settings presets, not the engine).
 copyDirectorySync('../server/CuraEngine/config', './CuraEngine/config');
-
-const platform = process.argv[2] || 'linux';
-if (platform === 'linux') {
-    const curaDir = '../server/CuraEngine/5.13.0/Linux-x64';
-    if (copyDirectorySync(curaDir, './CuraEngine/5.13.0/Linux-x64')) {
-        fs.chmodSync('./CuraEngine/5.13.0/Linux-x64/CuraEngine', 0o755);
-    } else {
-        console.warn('CuraEngine Linux-x64 binary is missing from the repo.');
-        console.warn('The 3D print module will not be able to slice.');
-    }
-} else if (platform === 'windows') {
-    const curaDir = '../server/CuraEngine/5.13.0/Win-x64';
-    if (!copyDirectorySync(curaDir, './CuraEngine/5.13.0/Win-x64')) {
-        console.warn('CuraEngine Win-x64 binary is missing from the repo.');
-        console.warn('The 3D print module will not be able to slice.');
-    }
-}

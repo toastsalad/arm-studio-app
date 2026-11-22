@@ -17,6 +17,7 @@ import {isOffloadEnabled} from '../../../../utils/offload';
 import Throbber from "../../../../components/Throbber/Index.jsx";
 import {withTranslation} from 'react-i18next';
 import ActionButton from '../../../../components/ActionButton/Index.jsx';
+import EngineSetup from '../EngineSetup/Index.jsx';
 
 class Index extends React.Component {
     actions = {
@@ -81,11 +82,12 @@ class Index extends React.Component {
                     size="small"
                     style={{width: "100%", padding: "8px"}}>
                     <Upload/>
+                    <EngineSetup/>
                     <ActionButton
                         onClick={actions.generateGcode}
                         text={this.props.slicing ? t("Slicing") : t("Slice Model")}
                         icon={<Throbber visible={this.props.slicing} inline/>}
-                        disabled={this.props.slicing}
+                        disabled={this.props.slicing || !this.props.engineReady}
                     />
                     <ActionButton onClick={actions.exportGcode} text={t("Save G-code")}/>
                     <div>
@@ -117,7 +119,8 @@ const mapStateToProps = (state) => {
     return {
         result,
         modelCount,
-        slicing
+        slicing,
+        engineReady: !!state.p3dEngine.status && state.p3dEngine.status.state === 'ready'
     };
 };
 

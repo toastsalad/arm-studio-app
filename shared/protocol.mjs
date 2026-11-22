@@ -13,6 +13,9 @@
 
 export const P3D_SLICE_START = 'P3D_SLICE_START';
 export const P3D_SLICE_STATUS = 'P3D_SLICE_STATUS';
+// CuraEngine acquisition: ask for the state, start a user-initiated download, receive progress.
+export const P3D_ENGINE_STATUS = 'P3D_ENGINE_STATUS';
+export const P3D_ENGINE_INSTALL = 'P3D_ENGINE_INSTALL';
 
 export const SERIAL_PORT_PATH_UPDATE = 'SERIAL_PORT_PATH_UPDATE'
 // The historical value was truncated mid-name. Web and server ship inside the

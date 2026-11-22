@@ -21,8 +21,8 @@ import {createBridgeStream} from './gcode/bridgeStream.mjs';
 import deviceStateMonitor from './deviceStateMonitor.js';
 import frontEndPositionMonitor from "./frontEndPositionMonitor";
 import p3dStartSlice from './p3dStartSlice.js';
+import {engineStatus, installEngine, subscribe} from './curaEngine.js';
 import {checkFileExist} from "./utils/fsUtils";
-import storeManager from './storeManager.js';
 import {
     SERIAL_PORT_PATH_UPDATE,
     SERIAL_PORT_GET_OPENED,
@@ -54,6 +54,8 @@ import {
     P3D_CONFIG_PRINT_SETTING_UPDATE,
     P3D_SLICE_START,
     P3D_SLICE_STATUS,
+    P3D_ENGINE_STATUS,
+    P3D_ENGINE_INSTALL,
     FRONT_END_POSITION_MONITOR,
     TEMPERATURE_MONITOR,
 } from "./constants.js"
@@ -98,22 +100,30 @@ const saveFontFile = async (fontFile) => {
     return fontName;
 }
 
-const listFonts = () => {
-    const buildInFontsPath = fs.readdirSync(BUILD_IN_FONTS_DIR);
-    const userFontsPath = fs.readdirSync(USER_FONTS_DIR);
-    const buildInFonts = [];
-    const userFonts = [];
-    for (const filename of buildInFontsPath) {
-        const isSvgFont = filename.toLowerCase().endsWith('svg');
-        const fontName = filename.slice(0, filename.indexOf('.'));
+// The font picker shows every file in this directory by name, so anything that is not a font must
+// stay out; the licences folder would otherwise appear as a font called "LICENSES".
+const FONT_EXTENSIONS = ['.svg', '.ttf', '.otf', '.woff', '.woff2'];
+const isFontFile = (filename) => {
+    const lower = filename.toLowerCase();
+    return FONT_EXTENSIONS.some((extension) => lower.endsWith(extension));
+};
 
-        buildInFonts.push({isSvgFont, fontName, path: '/fonts/' + filename});
-    }
-    for (const filename of userFontsPath) {
-        const isSvgFont = filename.toLowerCase().endsWith('svg');
-        const fontName = filename.slice(0, filename.indexOf('.'));
-        userFonts.push({isSvgFont, fontName, path: '/userFonts/' + filename});
-    }
+const describeFont = (filename, prefix) => ({
+    isSvgFont: filename.toLowerCase().endsWith('svg'),
+    // The UI label is the file name without its extension: Liberation Sans.ttf -> "Liberation Sans".
+    // The path keeps the raw name (no encodeURI): the picker's value has to compare equal to the
+    // default_value in config_text.json, and fetch() encodes the space itself.
+    fontName: filename.slice(0, filename.lastIndexOf('.')),
+    path: prefix + filename,
+});
+
+const listFonts = () => {
+    const buildInFonts = fs.readdirSync(BUILD_IN_FONTS_DIR)
+        .filter(isFontFile)
+        .map((filename) => describeFont(filename, '/fonts/'));
+    const userFonts = fs.readdirSync(USER_FONTS_DIR)
+        .filter(isFontFile)
+        .map((filename) => describeFont(filename, '/userFonts/'));
     return {buildInFonts, userFonts};
 }
 
@@ -490,6 +500,22 @@ const setupSocket = () => {
                         socket.emit(P3D_SLICE_STATUS, {err, id});
                     }
                 );
+            });
+
+            // CuraEngine is downloaded on first use, never shipped (AGPL-3.0; see
+            // THIRD-PARTY-NOTICES.md). The only request that reaches the network is the one the
+            // user starts here; the panel stays disabled until the engine reports ready.
+            socket.emit(P3D_ENGINE_STATUS, engineStatus());
+            const unsubscribe = subscribe((status) => {
+                socket.emit(P3D_ENGINE_STATUS, status);
+            });
+            socket.on('disconnect', unsubscribe);
+            socket.on(P3D_ENGINE_STATUS, () => {
+                socket.emit(P3D_ENGINE_STATUS, engineStatus());
+            });
+            socket.on(P3D_ENGINE_INSTALL, () => {
+                // Resolves either way: failures arrive as an error status through subscribe().
+                installEngine();
             });
         }
     );

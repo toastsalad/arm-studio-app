@@ -5,6 +5,7 @@ import p3dModel from "./p3dModel";
 import p3dMaterialSettings from "./p3dMaterialSettings";
 import p3dPrintSettings from "./p3dPrintSettings";
 import p3dSettingVisibility from "./p3dSettingVisibility";
+import p3dEngine from "./p3dEngine";
 import serialPort from "./serialPort";
 import socket from "./socket";
 import taps from "./taps";
@@ -29,6 +30,7 @@ export default combineReducers({
     p3dMaterialSettings,
     p3dPrintSettings,
     p3dSettingVisibility,
+    p3dEngine,
     serialPort,
     socket,
     taps,

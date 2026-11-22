@@ -24,6 +24,7 @@ import {THEME_DARK} from "../../utils/theme";
 
 import {actions as p3dPrintSettingsActions} from "../../reducers/p3dPrintSettings";
 import {actions as p3dMaterialSettingsActions} from "../../reducers/p3dMaterialSettings";
+import {actions as p3dEngineActions} from "../../reducers/p3dEngine";
 import {actions as settingsGeneralActions} from "../../reducers/settingsGeneral";
 import {actions as fontsActions} from "../../reducers/fonts";
 import notificationI18n from "../../utils/notificationI18n";
@@ -206,6 +207,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(settingsGeneralActions.init());
             dispatch(p3dMaterialSettingsActions.init());
             dispatch(p3dPrintSettingsActions.init());
+            dispatch(p3dEngineActions.init());
             dispatch(fontsActions.init());
         }
     };

@@ -1,14 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import childProcess from 'child_process';
 import {
-    CURA_ENGINE_PATH,
     CACHE_DIR,
     P3D_DIR_CONFIG_PRINT_SETTINGS,
     P3D_DIR_CONFIG_MATERIAL_SETTINGS,
     P3D_DIR_CONFIG,
     P3D_FILE_CONFIG_MACHINE_SETTING
 } from './init.js';
+import {CURA_ENGINE_RELEASE_PAGE, engineStatus, spawnEngine} from './curaEngine.js';
 import {log} from '../../shared/log.mjs';
 
 // data: {stlUrl, materialSettingFilename, printSettingFilename, id}; stlUrl like
@@ -51,10 +50,9 @@ const preHandle = (data) => {
 };
 
 const callCuraEngine = (modelPath, activatedSettingPath, gcodePath) => {
-    return childProcess.spawn(
-        CURA_ENGINE_PATH,
-        // CuraEngine 5.x skips a setting's own value when it has children (Arachne's
-        // min_wall_line_width, top_bottom_thickness, ...), so ask it to read those too.
+    // CuraEngine 5.x skips a setting's own value when it has children (Arachne's
+    // min_wall_line_width, top_bottom_thickness, ...), so ask it to read those too.
+    return spawnEngine(
         ['slice', '-v', '-p', '--force-read-parent', '-j', activatedSettingPath, '-o', gcodePath, '-l', modelPath]
     );
 };
@@ -74,8 +72,11 @@ const p3dStartSlice = (data, onProgress, onSucceed, onError) => {
     log.debug(configPath, modelPath, gcodePath, gcodeName)
 
     let progress = 0, filamentLength, filamentWeight, printTime;
-    if (!fs.existsSync(CURA_ENGINE_PATH)) {
-        onError(`Slice Error: Cura Engine not exist -> ${CURA_ENGINE_PATH}`);
+    if (engineStatus().state !== 'ready') {
+        // The 3D print panel disables slicing until the engine is installed, so this is the guard
+        // for a direct socket call, not the normal path. Never crash: report why and link the page.
+        onError(`CuraEngine is not installed. Download it from ${CURA_ENGINE_RELEASE_PAGE} ` +
+            `(3D Print panel > Download CuraEngine).`);
         return;
     }
     if (!fs.existsSync(configPath)) {

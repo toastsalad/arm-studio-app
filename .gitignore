@@ -2,6 +2,8 @@
 /server/node_modules
 /server/build-server
 /server/static/cache
+# A dev-mode run (no Electron) downloads CuraEngine into the working tree; never commit it.
+/server/static/CuraEngine
 /server/static/userFonts
 /server/static/app_config.json
 /server/CuraEngine/config/active.def.json

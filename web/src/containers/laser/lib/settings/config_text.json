@@ -13,7 +13,7 @@
     "font": {
       "label": "Font",
       "description": "Font description",
-      "default_value": "/fonts/Arial Black.woff",
+      "default_value": "/fonts/Liberation Sans.ttf",
       "type": "string"
     },
     "font_size": {

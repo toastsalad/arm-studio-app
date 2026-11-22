@@ -4,8 +4,7 @@ import electron from 'electron';
 import {isElectron} from './utils/index.js';
 import {log} from '../../shared/log.mjs';
 
-let CURA_ENGINE_PATH;
-const curaEngineBasePath = path.join(__dirname, '..', 'CuraEngine', '5.13.0');
+const CURA_ENGINE_VERSION = '5.13.0';
 const STATIC_DIR = path.join(__dirname, '..', 'static');
 const BUILD_IN_FONTS_DIR = path.join(__dirname, '..', 'static', 'fonts');
 
@@ -18,6 +17,23 @@ const USER_DATA_DIR = isElectron()
 
 const USER_FONTS_DIR = path.join(USER_DATA_DIR, 'userFonts');
 const CACHE_DIR = path.join(USER_DATA_DIR, 'cache');
+
+// CuraEngine is AGPL-3.0 and is not redistributed with this app. The user downloads Ultimaker's
+// release on first use (see curaEngine.js); the engine then lives in the user data dir, where it
+// survives app updates.
+const CURA_ENGINE_DIR = path.join(USER_DATA_DIR, 'CuraEngine', CURA_ENGINE_VERSION);
+let CURA_ENGINE_PATH;
+switch (process.platform) {
+    case 'darwin':
+        CURA_ENGINE_PATH = path.join(CURA_ENGINE_DIR, 'CuraEngine');
+        break;
+    case 'win32':
+        CURA_ENGINE_PATH = path.join(CURA_ENGINE_DIR, 'CuraEngine.exe');
+        break;
+    default:
+        CURA_ENGINE_PATH = path.join(CURA_ENGINE_DIR, 'CuraEngine');
+        break;
+}
 
 const MAX_CACHE_AGE_MS = 24 * 60 * 60 * 1000;
 
@@ -48,21 +64,6 @@ const seedDirectory = (src, dest) => {
 };
 
 (() => {
-    switch (process.platform) {
-        case 'darwin':
-            CURA_ENGINE_PATH = path.join(curaEngineBasePath, 'macOS', 'CuraEngine');
-            break;
-        case 'win32':
-            CURA_ENGINE_PATH = path.join(curaEngineBasePath, 'Win-x64', 'CuraEngine.exe');
-            break;
-        case 'linux':
-            CURA_ENGINE_PATH = path.join(curaEngineBasePath, 'Linux-x64', 'CuraEngine');
-            break;
-    }
-    if (!fs.existsSync(CURA_ENGINE_PATH)) {
-        log.error(`Cura Engine not found: ${CURA_ENGINE_PATH}`);
-    }
-
     fs.mkdirSync(CACHE_DIR, {recursive: true});
     // Prune old uploads rather than clearing the whole cache: a second instance
     // starting up must not invalidate the files a running instance still refers
@@ -83,6 +84,8 @@ const seedDirectory = (src, dest) => {
 
 export {
     CURA_ENGINE_PATH,
+    CURA_ENGINE_DIR,
+    CURA_ENGINE_VERSION,
     STATIC_DIR,
     CACHE_DIR,
     BUILD_IN_FONTS_DIR,

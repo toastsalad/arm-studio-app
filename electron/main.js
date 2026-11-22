@@ -4,7 +4,9 @@ const path = require('path');
 const copyCommand = 'CommandOrControl+C';
 const pasteCommand = 'CommandOrControl+V'
 
-// Keep the app fully offline: only file://, data:, blob: and the bundled localhost server pass.
+// Keep the renderer fully offline: only file://, data:, blob: and the bundled localhost server
+// pass. The one deliberate network call - the user-initiated CuraEngine download - is made by the
+// main process (server/src/curaEngine.js), not the renderer, so it is not subject to this filter.
 function setUpOfflineFilter() {
     try {
         const isLocal = (url) => {
