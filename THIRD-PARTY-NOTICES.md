@@ -21,7 +21,7 @@ redistributable faces below. The full license text for each is in
 | `Liberation Mono` | `Liberation Mono.ttf` | Liberation Mono | SIL OFL 1.1 | https://github.com/liberationfonts/liberation-fonts |
 | `DejaVu Sans` | `DejaVu Sans.ttf` | DejaVu Sans (also covers IPA) | Bitstream Vera / public domain | https://dejavu-fonts.github.io/ |
 | `Gelasio` | `Gelasio.ttf` | Gelasio | SIL OFL 1.1 | https://github.com/SorkinType/Gelasio |
-| `Comic Neue` | `Comic Neue.ttf` | Comic Neue | SIL OFL 1.1 | https://github.com/crozynski/comicneue |
+| `Patrick Hand` | `Patrick Hand.ttf` | Patrick Hand | SIL OFL 1.1 | https://github.com/google/fonts/tree/main/ofl/patrickhand |
 | `Anton` | `Anton.ttf` | Anton | SIL OFL 1.1 | https://github.com/googlefonts/AntonFont |
 | `Noto Sans JP` | `Noto Sans JP.ttf` | Noto Sans JP (Japanese; was IPAGothic) | SIL OFL 1.1 | https://github.com/notofonts/noto-cjk |
 
