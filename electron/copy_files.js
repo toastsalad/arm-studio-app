@@ -31,6 +31,10 @@ clean('./CuraEngine');
 copyDirectorySync('../web/build-web', './build-web');
 copyDirectorySync('../server/build-server', './build-server');
 copyDirectorySync('../server/static/fonts', './static/fonts');
+// License files must travel inside the installer, not just the repo.
+for (const doc of ['LICENSE', 'THIRD-PARTY-NOTICES.md']) {
+    fs.copyFileSync(path.join('..', doc), path.join('.', doc));
+}
 // CuraEngine is AGPL-3.0 and is not shipped: the app downloads it into the user data dir on
 // first use (/CuraEngine/config below is only the settings presets, not the engine).
 copyDirectorySync('../server/CuraEngine/config', './CuraEngine/config');

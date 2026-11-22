@@ -30,7 +30,9 @@
       "build-server/**/*",
       "static/**/*",
       "CuraEngine/**/*",
-      "PlotterHelper/**/*"
+      "PlotterHelper/**/*",
+      "LICENSE",
+      "THIRD-PARTY-NOTICES.md"
     ],
     "linux": {
       "target": [
