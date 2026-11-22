@@ -1,0 +1,82 @@
+/* Dark line artwork on the toolbar, so each button is drawn as a mask filled with the button's
+   own text colour: it reads in either theme without being flipped. */
+.btn_move,
+.btn_scale,
+.btn_rotate {
+    position: relative;
+    width: 35px;
+    height: 40px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
+}
+
+.btn_move::before,
+.btn_scale::before,
+.btn_rotate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 18px 18px;
+    mask-size: 18px 18px;
+}
+
+.btn_move:disabled,
+.btn_move:active,
+.btn_scale:disabled,
+.btn_scale:active,
+.btn_rotate:disabled,
+.btn_rotate:active {
+    opacity: 0.4;
+}
+
+.btn_move::before {
+    -webkit-mask-image: url(./images/translate.svg);
+    mask-image: url(./images/translate.svg);
+}
+
+.btn_scale::before {
+    -webkit-mask-image: url(./images/scale.svg);
+    mask-image: url(./images/scale.svg);
+}
+
+.btn_rotate::before {
+    -webkit-mask-image: url(./images/rotate.svg);
+    mask-image: url(./images/rotate.svg);
+}
+
+/* The reset button in the popover keeps its box, themed, with the artwork in the text colour. */
+.btn_reset {
+    position: relative;
+    display: inline-block;
+    height: 24px;
+    margin: 0;
+    padding: 0 15px;
+    color: var(--app-text);
+    font-size: 14px;
+    line-height: 30px;
+    border: 1px solid var(--app-divider);
+    cursor: pointer;
+    transition: color 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.btn_reset::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask-image: url('./images/reset.svg');
+    mask-image: url('./images/reset.svg');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 28px 28px;
+    mask-size: 28px 28px;
+}

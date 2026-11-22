@@ -1,0 +1,7 @@
+/* Busy marker pinned to the image corner while a preview recomputes. The badge itself comes from
+   components/Throbber; this only places it. */
+.throbber {
+    position: absolute;
+    left: 0;
+    top: 0;
+}

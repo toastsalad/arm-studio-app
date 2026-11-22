@@ -1,0 +1,145 @@
+.rail_controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* The rail buttons draw their state icon as a mask, filled with the button's own text colour for
+   the off states and with the accent for the on ones. Nothing is flipped, and a state only has to
+   name its artwork and colour below. */
+.btn_rail {
+    position: relative;
+    width: 56px;
+    height: 40px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-right: 4px solid transparent;
+}
+
+/* No content here: this only becomes an element for the states that opt in below, so a button
+   drawn as a background image of its own (the emergency stop) is left alone. */
+.btn_rail::before {
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 25px 25px;
+    mask-size: 25px 25px;
+}
+
+.btn_rail:active {
+    opacity: 0.4;
+}
+
+.btn_rail_active {
+    border-right-color: dodgerblue;
+}
+
+.ic_link_off::before,
+.ic_pause::before,
+.ic_terminal_off::before {
+    content: '';
+}
+
+.ic_link_on::before,
+.ic_resume::before,
+.ic_terminal_on::before {
+    content: '';
+    background-color: var(--app-accent);
+}
+
+/* The emergency stop is red and white, so it keeps the artwork it was drawn with rather than
+   being masked down to one colour; it reads on either panel. */
+.ic_estop {
+    background-image: url(./images/emergency_stop.svg);
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ic_link_off::before {
+    -webkit-mask-image: url(./images/link_off.svg);
+    mask-image: url(./images/link_off.svg);
+}
+
+.ic_link_on::before {
+    -webkit-mask-image: url(./images/link_on.svg);
+    mask-image: url(./images/link_on.svg);
+}
+
+.ic_pause::before {
+    -webkit-mask-image: url(./images/pause.svg);
+    mask-image: url(./images/pause.svg);
+}
+
+.ic_resume::before {
+    -webkit-mask-image: url(./images/resume.svg);
+    mask-image: url(./images/resume.svg);
+}
+
+.ic_terminal_off::before {
+    -webkit-mask-image: url(./images/terminal_off.svg);
+    mask-image: url(./images/terminal_off.svg);
+}
+
+.ic_terminal_on::before {
+    -webkit-mask-image: url(./images/terminal_on.svg);
+    mask-image: url(./images/terminal_on.svg);
+}
+
+.status_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.status_dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--app-status-off);
+    flex: 0 0 auto;
+}
+
+.status_dot_on {
+    background-color: var(--app-status-on);
+}
+
+.status_link {
+    margin-left: auto;
+    font-size: 12px;
+}
+
+.hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--app-text-muted);
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+}
+
+/* min-width: 0 lets a flex child shrink below its content, so long device
+   names are cut off instead of pushing the button out of the dialog. */
+.row_grow {
+    flex: 1;
+    min-width: 0;
+}
+
+.field {
+    margin-top: 12px;
+}
+
+.field_label {
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--app-text-secondary);
+}

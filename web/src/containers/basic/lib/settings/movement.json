@@ -1,0 +1,24 @@
+{
+  "mode": {
+    "fast_mode": {
+      "label": "Fast Mode",
+      "description": "Runs the arm as fast as it can. Moves may cut corners, so use it for jogging and repositioning, not for a job.",
+      "gcode": "M2001\n"
+    },
+    "straight_mode": {
+      "label": "Straight Mode",
+      "description": "Keeps every move a straight line (M2000 line mode). Use it for drawing, laser and 3D printing, where the tool must follow the path exactly.",
+      "gcode": "M2000\n"
+    }
+  },
+  "speed": {
+    "label": "Speed",
+    "description": "Speed description",
+    "default_value": 1000,
+    "type": "int",
+    "unit": "mm/min",
+    "step": 100,
+    "minimum_value": 1,
+    "maximum_value": 10000
+  }
+}

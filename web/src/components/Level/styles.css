@@ -1,0 +1,60 @@
+/* Match the antd buttons beside it (Run Boundary, Calibration); a native button would take the
+   browser's own grey, which stands out on the dark panel. */
+.btn_action_work {
+    width: 100%;
+    height: 30px;
+    background-color: var(--app-surface-bg);
+    color: var(--app-text);
+    outline: none;
+    border: 1px solid var(--app-border);
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.btn_action_work:active {
+    opacity: 0.4;
+}
+
+.img_point_a {
+    content: url("./images/pointA.png");
+    width: 400px;
+    height: 400px;
+}
+
+.img_point_b {
+    content: url("./images/pointB.png");
+    width: 400px;
+    height: 400px;
+}
+
+.img_point_c {
+    content: url("./images/pointC.png");
+    width: 400px;
+    height: 400px;
+}
+
+.img_point_d {
+    content: url("./images/pointD.png");
+    width: 400px;
+    height: 400px;
+}
+
+.div_loading_hidden,
+.div_loading_visible {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: var(--app-overlay-bg);
+    align-items: center;
+    justify-content: center;
+}
+
+.div_loading_hidden {
+    visibility: hidden;
+}
+
+.div_loading_visible {
+    visibility: visible;
+}

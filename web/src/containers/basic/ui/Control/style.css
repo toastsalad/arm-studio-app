@@ -1,0 +1,173 @@
+/* The rotating-parts buttons are antd radio buttons: antd themes their face, so the artwork cannot
+   be flipped with the theme the way a whole button can. It is drawn as a mask filled with the
+   button's own text colour instead, which reads on either face.
+
+   The grey *_disable artwork is left as a background image: it reads fine on a dark face, and
+   masking it would make a disabled control look enabled. */
+.btn_rotate_left,
+.btn_rotate_right,
+.btn_swag,
+.btn_clockwise,
+.btn_anticlockwise,
+.btn_power,
+.btn_backward,
+.btn_forward,
+.btn_stop {
+  position: relative;
+  width: 45px;
+  outline: none !important;
+  vertical-align: middle !important;
+}
+
+.btn_rotate_left::before,
+.btn_rotate_right::before,
+.btn_swag::before,
+.btn_clockwise::before,
+.btn_anticlockwise::before,
+.btn_power::before,
+.btn_backward::before,
+.btn_forward::before,
+.btn_stop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 25px 25px;
+  mask-size: 25px 25px;
+}
+
+.btn_power_disable {
+  width: 45px;
+  background-image: url('../../images/power_disable.svg') !important;
+  background-size: 25px 25px !important;
+  background-repeat: no-repeat !important;
+  outline: none !important;
+  background-position: center !important;
+  vertical-align: middle !important;
+}
+
+.btn_backward_disable {
+  width: 45px;
+  background-image: url('../../images/backward_gray.svg') !important;
+  background-size: 25px 25px !important;
+  background-repeat: no-repeat !important;
+  outline: none !important;
+  background-position: center !important;
+  vertical-align: middle !important;
+}
+
+.btn_forward_disable {
+  width: 45px;
+  background-image: url('../../images/forward_gray.svg') !important;
+  background-size: 25px 25px !important;
+  background-repeat: no-repeat !important;
+  outline: none !important;
+  background-position: center !important;
+  vertical-align: middle !important;
+}
+
+.btn_rotate_left:active,
+.btn_rotate_right:active,
+.btn_swag:active,
+.btn_clockwise:active,
+.btn_anticlockwise:active,
+.btn_power:active,
+.btn_power_disable:active,
+.btn_backward:active,
+.btn_backward_disable:active,
+.btn_forward:active,
+.btn_forward_disable:active,
+.btn_stop:active {
+  opacity: .4;
+}
+
+.btn_rotate_left::before {
+  -webkit-mask-image: url('../../images/rotate_left.svg');
+  mask-image: url('../../images/rotate_left.svg');
+}
+
+.btn_rotate_right::before {
+  -webkit-mask-image: url('../../images/rotate_right.svg');
+  mask-image: url('../../images/rotate_right.svg');
+}
+
+.btn_swag::before {
+  -webkit-mask-image: url('../../images/swag.svg');
+  mask-image: url('../../images/swag.svg');
+}
+
+.btn_clockwise::before {
+  -webkit-mask-image: url('../../images/clockwise.svg');
+  mask-image: url('../../images/clockwise.svg');
+}
+
+.btn_anticlockwise::before {
+  -webkit-mask-image: url('../../images/anticlockwise.svg');
+  mask-image: url('../../images/anticlockwise.svg');
+}
+
+.btn_power::before {
+  -webkit-mask-image: url('../../images/power.svg');
+  mask-image: url('../../images/power.svg');
+}
+
+.btn_backward::before {
+  -webkit-mask-image: url('../../images/backward_dark.svg');
+  mask-image: url('../../images/backward_dark.svg');
+}
+
+.btn_forward::before {
+  -webkit-mask-image: url('../../images/forward_dark.svg');
+  mask-image: url('../../images/forward_dark.svg');
+}
+
+.btn_stop::before {
+  -webkit-mask-image: url('../../images/stop_dark.svg');
+  mask-image: url('../../images/stop_dark.svg');
+}
+
+.field_label {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--app-text-secondary);
+}
+
+.group_full {
+  display: flex;
+  width: 100%;
+}
+
+.group_full :global(.ant-radio-button-wrapper) {
+  flex: 1;
+  text-align: center;
+}
+
+.rotate_row {
+  display: grid;
+  gap: 8px;
+}
+
+.rotate_row > * {
+  min-width: 0;
+  width: 100% !important;
+}
+
+/* Match the height of the buttons either side of the angle box. */
+.rotate_row :global(.ant-radio-button-wrapper) {
+  height: 30px;
+  line-height: 28px;
+}
+
+.rotate_row :global(.ant-input-number) {
+  width: 100%;
+  height: 30px;
+}
+
+.rotate_row :global(.ant-input-number-input) {
+  height: 28px;
+}

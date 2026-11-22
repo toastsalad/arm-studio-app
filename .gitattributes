@@ -1,0 +1,21 @@
+# Normalize all text files to LF in the repo and the working tree.
+# Files with no NUL byte are treated as text by git's auto detection.
+* text=auto eol=lf
+
+# Explicit binaries so the auto heuristic can never mangle them.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.webp binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.mo binary
+*.zip binary
+*.exe binary
+*.AppImage binary

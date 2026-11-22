@@ -1,0 +1,33 @@
+.row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.slider {
+    flex: 1;
+    min-width: 0;
+    margin: 0 2px 0 0;
+}
+
+/* antd gives the slider 10px of vertical margin, which made a numeric row 34px tall against a
+   checkbox row's 22px and threw off the row rhythm. Centring handles the rail instead. */
+.slider :global(.ant-slider) {
+    margin: 0;
+}
+
+/* Five characters wide, so a four-digit speed still fits. */
+.box {
+    width: 48px;
+    flex: none;
+}
+
+/* Value sizing for the small box. antd sizes the font and padding as
+   `:where(...).ant-input-number .ant-input-number-input`, which is (0,2,0) - more than a plain
+   element selector under .box - so the class has to be named to win. */
+.box input:global(.ant-input-number-input) {
+    text-align: center;
+    font-size: 12px;
+    padding: 0 2px;
+}

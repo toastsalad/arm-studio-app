@@ -1,0 +1,259 @@
+{
+  "start_gcode": {
+    "label": "Start Gcode",
+    "description": "Start Gcode description",
+    "default_value": ";----------- Start Gcode -----------\nM2000 ;custom:line mode\nM888 P1 ;custom:header is laser\nM888 P14 ;custom:turn on cover fan\n;-----------------------------------",
+    "type": "str"
+  },
+  "end_gcode": {
+    "label": "End Gcode",
+    "description": "End Gcode description",
+    "default_value": ";----------- End Gcode -------------\nM888 P15 ;custom:turn off cover fan\n;-----------------------------------",
+    "type": "str"
+  },
+  "transformation": {
+    "icon": "base64xxx",
+    "label": "Transformation",
+    "type": "category",
+    "description": "Transformation B&W description",
+    "children": {
+      "img_width": {
+        "default_value": 0
+      },
+      "img_height": {
+        "default_value": 0
+      },
+      "width": {
+        "label": "Width",
+        "description": "Width description",
+        "default_value": 5,
+        "type": "int",
+        "unit": "mm",
+        "minimum_value": 5,
+        "maximum_value": 297
+      },
+      "height": {
+        "label": "Height",
+        "description": "Height description",
+        "default_value": 5,
+        "type": "int",
+        "unit": "mm",
+        "minimum_value": 5,
+        "maximum_value": 210
+      },
+      "rotation": {
+        "label": "Rotation",
+        "description": "Rotation description",
+        "default_value": 0,
+        "type": "int",
+        "unit": "degree",
+        "minimum_value": -180,
+        "maximum_value": 180
+      },
+      "x": {
+        "label": "Move X",
+        "description": "Move X description",
+        "default_value": 0,
+        "type": "int",
+        "unit": "mm",
+        "minimum_value": -350,
+        "maximum_value": 350
+      },
+      "y": {
+        "label": "Move Y",
+        "description": "Move Y description",
+        "default_value": 300,
+        "type": "int",
+        "unit": "mm",
+        "minimum_value": 0,
+        "maximum_value": 700
+      },
+      "flip_model": {
+        "label": "Flip Model",
+        "description": "Flip Model description",
+        "default_value": "None",
+        "type": "enum",
+        "options": {
+          "None": "None",
+          "Vertical": "Vertical",
+          "Horizontal": "Horizontal",
+          "Both": "Both"
+        }
+      }
+    }
+  },
+  "config": {
+    "icon": "base64xxx",
+    "label": "Greyscale",
+    "type": "category",
+    "description": "Config of Greyscale",
+    "children": {
+      "invert": {
+        "label": "Invert",
+        "description": "Inverts black to white and vise versa.",
+        "default_value": false,
+        "type": "bool"
+      },
+      "contrast": {
+        "label": "Contrast",
+        "description": "The difference between the lightest color and the darkest color.",
+        "default_value": 50,
+        "type": "int",
+        "minimum_value": 1,
+        "maximum_value": 100
+      },
+      "brightness": {
+        "label": "Brightness",
+        "description": "The engraved picture is brighter when this value is bigger.",
+        "default_value": 50,
+        "type": "int",
+        "minimum_value": 0,
+        "maximum_value": 100
+      },
+      "white_clip": {
+        "label": "White Clip",
+        "description": "Set the threshold to turn the color that is not pure white into pure white.",
+        "default_value": 100,
+        "type": "int",
+        "minimum_value": 0,
+        "maximum_value": 255
+      },
+      "bw": {
+        "default_value": 168
+      },
+      "algorithm": {
+        "label": "Algorithm",
+        "description": "Choose an algorithm for image processing.",
+        "default_value": "JarvisJudiceNinke",
+        "type": "enum",
+        "options": {
+          "Floyd-Steinburg": "FloydSteinburg",
+          "Jarvis-Judice-Ninke": "JarvisJudiceNinke",
+          "Stucki": "Stucki",
+          "Atkinson": "Atkinson",
+          "Burkes": "Burkes",
+          "Sierra-2": "Sierra2",
+          "Sierra-3": "Sierra3",
+          "Sierra Lite": "SierraLite"
+        }
+      },
+      "movement_mode": {
+        "label": "Movement Mode",
+        "description": "Choose the movement mode",
+        "default_value": "greyscale-line",
+        "type": "enum",
+        "options": {
+          "Line (Normal Quality)": "greyscale-line",
+          "Dot (High Quality)": "greyscale-dot"
+        }
+      },
+      "density": {
+        "label": "Density",
+        "description": "Determines how fine and smooth the engraved picture will be. The bigger this value is, the better quality you will get.",
+        "default_value": 4,
+        "type": "int",
+        "unit": "dot/mm",
+        "minimum_value": 1,
+        "maximum_value": 20
+      },
+      "line_direction": {
+        "label": "Line Direction",
+        "description": "Line Direction description",
+        "default_value": "Horizontal",
+        "type": "enum",
+        "options": {
+          "Horizontal": "Horizontal",
+          "Vertical": "Vertical",
+          "Diagonal": "Diagonal",
+          "Diagonal2": "Diagonal2"
+        }
+      }
+    }
+  },
+  "working_parameters": {
+    "icon": "base64xxx",
+    "label": "Working Parameters",
+    "type": "category",
+    "description": "Working Parameters description",
+    "children": {
+      "work_speed": {
+        "label": "Work Speed",
+        "description": "Determines how fast the front end moves when it’s working.",
+        "placeholder": "#work_speed#",
+        "default_value": 400,
+        "type": "int",
+        "unit": "mm/min",
+        "minimum_value": 10,
+        "maximum_value": 4000
+      },
+      "jog_speed": {
+        "label": "Jog Speed",
+        "description": "Determines how fast the front end moves when it’s not working.",
+        "placeholder": "#jog_speed#",
+        "default_value": 400,
+        "type": "int",
+        "unit": "mm/min",
+        "minimum_value": 10,
+        "maximum_value": 4000,
+        "hidden": "movement_mode === greyscale-dot"
+      },
+      "dwell_time": {
+        "label": "Dwell Time",
+        "description": "Pause DexArm and wait before turning ON laser. It helps improve laser engraving quality.",
+        "placeholder": "#dwell_time#",
+        "default_value": 0,
+        "type": "int",
+        "unit": "ms",
+        "minimum_value": 0,
+        "maximum_value": 100,
+        "hidden": "movement_mode === greyscale-line"
+      },
+      "engrave_time": {
+        "label": "Engrave Time",
+        "description": "Determines how long the laser keeps on when it's engraving a dot.",
+        "placeholder": "#engrave_time#",
+        "default_value": 5,
+        "type": "int",
+        "unit": "ms",
+        "minimum_value": 1,
+        "maximum_value": 100,
+        "hidden": "movement_mode === greyscale-line"
+      },
+      "power": {
+        "label": "Power",
+        "description": "Power to use when laser is working.",
+        "placeholder": "#power#",
+        "default_value": 50,
+        "type": "int",
+        "unit": "%",
+        "minimum_value": 1,
+        "maximum_value": 100
+      },
+      "multi_pass": {
+        "label": "Multi-Pass",
+        "description": "When enabled, the Arm will run the G-code multiple times automatically according to the below settings. This feature helps you cut materials that can't be cut with only one pass.",
+        "default_value": false,
+        "type": "bool",
+        "children": {
+          "passes": {
+            "label": "Passes",
+            "description": "Determines how many times the printer will run the G-code automatically.",
+            "default_value": 2,
+            "type": "int",
+            "minimum_value": 2,
+            "maximum_value": 10
+          },
+          "pass_depth": {
+            "label": "Pass Depth",
+            "description": "Determines how much the laser module will be lowered after each pass.",
+            "default_value": 1,
+            "type": "int",
+            "unit": "mm",
+            "minimum_value": 0.1,
+            "maximum_value": 5
+          }
+        }
+      }
+    }
+  }
+}

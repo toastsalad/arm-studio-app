@@ -1,0 +1,153 @@
+.div_tap_bar {
+    width: 56px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: var(--app-panel-bg);
+    border-right: 1px solid var(--app-border)
+}
+
+.div_bottom_controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.div_workspace {
+    position: absolute;
+    top: 0;
+    left: 56px;
+    right: 0;
+    bottom: 0;
+    background-color: var(--app-workspace-bg);
+}
+
+/* The taps are dark line artwork on the bar, so each one is drawn as a mask filled with the
+   button's own text colour. That reads in either theme on its own, so nothing has to be flipped,
+   and a new tap only has to name its artwork below.
+
+   The mask goes on ::before rather than on the button because the selected tap carries a 4px
+   right border, which masking the button itself would clip away. */
+.btn_basic,
+.btn_basic_selected,
+.btn_laser,
+.btn_laser_selected,
+.btn_write_and_draw,
+.btn_write_and_draw_selected,
+.btn_3d,
+.btn_3d_selected,
+.btn_theme_dark,
+.btn_theme_light,
+.btn_settings,
+.btn_settings_selected {
+    position: relative;
+    width: 56px;
+    height: 40px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-right: 4px solid transparent;
+}
+
+.btn_basic::before,
+.btn_basic_selected::before,
+.btn_laser::before,
+.btn_laser_selected::before,
+.btn_write_and_draw::before,
+.btn_write_and_draw_selected::before,
+.btn_3d::before,
+.btn_3d_selected::before,
+.btn_theme_dark::before,
+.btn_theme_light::before,
+.btn_settings::before,
+.btn_settings_selected::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 25px 25px;
+    mask-size: 25px 25px;
+}
+
+.btn_basic:active,
+.btn_laser:active,
+.btn_write_and_draw:active,
+.btn_3d:active,
+.btn_theme_dark:active,
+.btn_theme_light:active,
+.btn_settings:active {
+    opacity: 0.4;
+}
+
+/* The settings tap is taller than the others. */
+.btn_settings,
+.btn_settings_selected {
+    height: 45px;
+}
+
+/* The selected tap is the same drawing in the accent colour, which is why the bar no longer
+   carries a second blue copy of each icon. */
+.btn_basic_selected,
+.btn_laser_selected,
+.btn_write_and_draw_selected,
+.btn_3d_selected,
+.btn_settings_selected {
+    border-right-color: dodgerblue;
+}
+
+.btn_basic_selected::before,
+.btn_laser_selected::before,
+.btn_write_and_draw_selected::before,
+.btn_3d_selected::before,
+.btn_settings_selected::before {
+    background-color: var(--app-accent);
+}
+
+.btn_basic::before,
+.btn_basic_selected::before {
+    -webkit-mask-image: url(./images/basic.svg);
+    mask-image: url(./images/basic.svg);
+}
+
+.btn_laser::before,
+.btn_laser_selected::before {
+    -webkit-mask-image: url(./images/laser.svg);
+    mask-image: url(./images/laser.svg);
+}
+
+.btn_write_and_draw::before,
+.btn_write_and_draw_selected::before {
+    -webkit-mask-image: url(./images/write-draw.svg);
+    mask-image: url(./images/write-draw.svg);
+}
+
+.btn_3d::before,
+.btn_3d_selected::before {
+    -webkit-mask-image: url(./images/p3d.svg);
+    mask-image: url(./images/p3d.svg);
+}
+
+.btn_settings::before,
+.btn_settings_selected::before {
+    -webkit-mask-image: url(./images/settings.svg);
+    mask-image: url(./images/settings.svg);
+}
+
+/* The theme toggle shows the theme you would get, not the one you are in. */
+.btn_theme_dark::before {
+    -webkit-mask-image: url(./images/theme-dark.svg);
+    mask-image: url(./images/theme-dark.svg);
+}
+
+.btn_theme_light::before {
+    -webkit-mask-image: url(./images/theme-light.svg);
+    mask-image: url(./images/theme-light.svg);
+}

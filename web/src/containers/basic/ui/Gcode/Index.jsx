@@ -1,0 +1,137 @@
+import React from 'react';
+import {connect} from 'react-redux';
+import {actions as gcodeSendActions} from "../../../../reducers/gcodeSend.js";
+import {isOffloadEnabled} from '../../../../utils/offload';
+
+import Line from '../../../../components/Line/Index.jsx'
+import {Space, Button, Select} from 'antd';
+import front_end from "../../lib/settings/front_end.json";
+import Tooltip from '../../../Tooltip/Index.jsx';
+import {getUuid} from '../../../../utils';
+import {withTranslation} from 'react-i18next';
+
+const tooltipId = getUuid();
+
+class Index extends React.Component {
+    fileInput = React.createRef();
+    state = {
+        gcode: null, //
+        fileName: null,
+        importLevel: 0// int
+    };
+    actions = {
+        onSelectFrontEnd: (frontEnd) => {
+            if (!frontEnd) {
+                return;
+            }
+            this.props.startTask(front_end[frontEnd].gcode, false);
+            this.setState({importLevel: 2});
+        },
+        importGcode: () => {
+            this.setState({
+                gcode: null, // bw, greyscale, svg, text
+                fileName: null,
+                importLevel: 0// int
+            }, () => {
+                this.fileInput.current.value = null;
+                this.fileInput.current.click();
+            })
+        },
+        onChangeFile: async (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            const that = this;
+            reader.onload = function () {
+                that.setState({
+                    gcode: this.result, // bw, greyscale, svg, text
+                    fileName: file.name,
+                    importLevel: 1
+                });
+            };
+            reader.readAsText(file, "utf8");
+        },
+        startTask: () => {
+            this.props.startJob(this.state.gcode, {mode: 'custom', offload: isOffloadEnabled()});
+            this.setState({importLevel: 3});
+        },
+        stopTask: () => {
+            this.props.stopTask();
+        },
+    };
+
+    render() {
+        const frontEndOptions = [];
+        Object.keys(front_end).forEach((key) => {
+            const option = front_end[key];
+            frontEndOptions.push({value: key, label: this.props.t(option.label)})
+        });
+
+        return (
+            <div style={{
+                width: "100%",
+                height: "100%",
+            }}>
+                <Tooltip
+                    id={tooltipId}
+                    place="left"
+                   />
+                <Space orientation={"vertical"} style={{width: "100%", padding: "6px"}}>
+                    <Button
+                        data-tooltip-id={tooltipId}
+                        data-tooltip-content={this.props.t('Select the right module and set work origin first.')}
+                        style={{width: "100%"}}
+                        onClick={this.actions.importGcode}
+                    >
+                        {this.props.t("Import G-code")}
+                    </Button>
+                    {this.state.importLevel > 0 &&
+                    <Select
+                        style={{width: "100%", textAlign: "center"}}
+                        onChange={this.actions.onSelectFrontEnd}
+                        placeholder={this.props.t('select front end')}
+                        options={frontEndOptions}/>
+                    }
+                    {this.state.importLevel > 1 &&
+                    <Button
+                        style={{width: "100%"}}
+                        onClick={this.actions.startTask}
+                    >
+                        {this.props.t("Start Send G-code")}
+                    </Button>}
+                    {this.state.importLevel > 2 &&
+                    <Button
+                        style={{width: "100%"}}
+                        onClick={this.actions.stopTask}
+                    >
+                        {this.props.t("Stop Send G-code")}
+                    </Button>}
+                </Space>
+                <Line/>
+                <input
+                    ref={this.fileInput}
+                    type="file"
+                    accept={".gcode"}
+                    style={{display: 'none'}}
+                    multiple={false}
+                    onChange={this.actions.onChangeFile}
+                />
+                <Space orientation={"vertical"} style={{width: "100%", paddingLeft: "5px", paddingRight: "5px"}}>
+                    {this.state.fileName &&
+                    <div style={{textAlign: "center"}}>
+                        {this.state.fileName}
+                    </div>}
+                </Space>
+            </div>
+        )
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        startTask: (gcode, isAckChange) => dispatch(gcodeSendActions.startTask(gcode, isAckChange)),
+        startJob: (gcode, opts) => dispatch(gcodeSendActions.startJob(gcode, opts)),
+        stopTask: () => dispatch(gcodeSendActions.stopTask()),
+    };
+};
+export default connect(null, mapDispatchToProps)(withTranslation()(Index));
+

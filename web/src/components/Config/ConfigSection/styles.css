@@ -1,0 +1,13 @@
+/* A section heading that opens to reveal its settings. */
+.section {
+    /* The 3D print menus keep antd's own pale fill (see p3d/ui/Config). Forcing this one
+       transparent made it the same colour as the panel behind it, so the menu read as an
+       empty outline rather than a card with room around it. */
+    margin: 8px;
+}
+
+.section :global(.ant-collapse-header) {
+    align-items: center;
+    color: var(--app-text);
+    font-size: 13px;
+}

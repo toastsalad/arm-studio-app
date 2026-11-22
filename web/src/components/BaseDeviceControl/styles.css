@@ -1,0 +1,127 @@
+.btn_xyz {
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: 1px solid var(--app-border);
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.btn_xyz:active {
+    opacity: 0.4;
+}
+
+.btn_action_work {
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: 1px solid var(--app-border);
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.btn_action_work:active {
+    opacity: 0.4;
+}
+
+/* The jog arrows have a themed face, so the artwork cannot be flipped with the theme the way a
+   whole button can: it is drawn as a mask filled with the button's own text colour, which leaves
+   the face alone and needs no dark-mode branch. */
+.btn_left_top,
+.btn_left_bottom,
+.btn_right_top,
+.btn_right_bottom {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: 1px solid var(--app-border);
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.btn_left_top::before,
+.btn_left_bottom::before,
+.btn_right_top::before,
+.btn_right_bottom::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 25px 25px;
+    mask-size: 25px 25px;
+}
+
+.btn_left_top:active,
+.btn_left_bottom:active,
+.btn_right_top:active,
+.btn_right_bottom:active {
+    opacity: 0.4;
+}
+
+/* Match the antd buttons (e.g. Calibration); native inputs default to grey. */
+.btn_xyz,
+.btn_action_work,
+.btn_left_top,
+.btn_left_bottom,
+.btn_right_top,
+.btn_right_bottom {
+    background-color: var(--app-surface-bg);
+    color: var(--app-text);
+}
+
+.btn_left_top::before {
+    -webkit-mask-image: url(./images/left-top.svg);
+    mask-image: url(./images/left-top.svg);
+}
+
+.btn_left_bottom::before {
+    -webkit-mask-image: url(./images/left-bottom.svg);
+    mask-image: url(./images/left-bottom.svg);
+}
+
+.btn_right_top::before {
+    -webkit-mask-image: url(./images/right-top.svg);
+    mask-image: url(./images/right-top.svg);
+}
+
+.btn_right_bottom::before {
+    -webkit-mask-image: url(./images/right-bottom.svg);
+    mask-image: url(./images/right-bottom.svg);
+}
+
+.btn_step {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    padding: 0;
+}
+
+.section {
+    margin-top: 14px;
+}
+
+.sub_label {
+    margin: 8px 0 4px;
+    font-size: 12px;
+    color: var(--app-text-secondary);
+}
+
+.btn_add_custom {
+    width: 100%;
+    height: 30px;
+    background-color: var(--app-surface-bg);
+    color: var(--app-text);
+    outline: none;
+    border: 1px solid var(--app-border);
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+.btn_add_custom:active {
+    opacity: 0.4;
+}

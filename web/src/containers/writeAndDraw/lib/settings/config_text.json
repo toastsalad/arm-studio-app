@@ -1,0 +1,28 @@
+{
+  "icon": "base64xxx",
+  "label": "Text",
+  "type": "category",
+  "description": "Config of Text",
+  "children": {
+    "text": {
+      "label": "Content",
+      "description": "text description",
+      "default_value": "Arm Studio",
+      "type": "string"
+    },
+    "font": {
+      "label": "Font",
+      "description": "Font description",
+      "default_value": "/fonts/Arial Black.woff",
+      "type": "string"
+    },
+    "font_size": {
+      "label": "Font Size",
+      "description": "Font Size description",
+      "default_value": 50,
+      "type": "int",
+      "minimum_value": 5,
+      "maximum_value": 200
+    }
+  }
+}

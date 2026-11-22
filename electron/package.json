@@ -1,0 +1,81 @@
+{
+  "name": "arm-studio-app",
+  "productName": "Arm Studio",
+  "version": "1.0.1",
+  "author": "Arm Studio",
+  "description": "Offline desktop app for the DexArm robot arm",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "copy_files": "node ./copy_files.js linux",
+    "start": "npm run copy_files && electron .",
+    "dist": "npm run copy_files && electron-builder --linux AppImage",
+    "build:win-x64": "node ./copy_files.js windows && electron-builder --windows --x64 --dir",
+    "watch:web": "npm --prefix ../web run watch",
+    "watch:server": "npm --prefix ../server run watch"
+  },
+  "build": {
+    "appId": "com.armstudio.app",
+    "asar": false,
+    "productName": "Arm Studio",
+    "npmRebuild": false,
+    "directories": {
+      "buildResources": "build",
+      "output": "output"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "build-web/**/*",
+      "build-server/**/*",
+      "static/**/*",
+      "CuraEngine/**/*",
+      "PlotterHelper/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Graphics",
+      "executableName": "arm-studio",
+      "icon": "electron-builder/icon.png"
+    },
+    "win": {
+      "icon": "electron-builder/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "ArmStudio-${version}-${arch}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Arm Studio"
+    },
+    "appImage": {
+      "artifactName": "ArmStudio-${version}-${arch}.AppImage"
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.6.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "image-size": "^2.0.4",
+    "jimp": "^1.6.1",
+    "koa": "^3.2.1",
+    "koa-body": "^8.0.1",
+    "koa-router": "^14.0.0",
+    "koa-static": "^5.0.0",
+    "lodash": "^4.17.15",
+    "serialport": "^13.0.0",
+    "socket.io": "^4.8.4",
+    "three-math": "^0.69.0",
+    "xml2js": "^0.6.2"
+  }
+}

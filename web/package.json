@@ -1,0 +1,44 @@
+{
+  "scripts": {
+    "start": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production",
+    "lint": "eslint src test",
+    "watch": "webpack --watch --mode=development",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.6",
+    "@babel/plugin-transform-class-properties": "^8.0.1",
+    "@babel/preset-env": "^8.0.6",
+    "@babel/preset-react": "^8.0.1",
+    "@eslint/js": "^10.0.1",
+    "antd": "^6.6.5",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.5",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "lodash": "^4.17.15",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-draggable": "^4.7.2",
+    "react-redux": "^9.3.0",
+    "react-tooltip": "^6.0.8",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "socket.io-client": "^4.8.4",
+    "style-loader": "^4.0.0",
+    "three": "^0.186.1",
+    "vitest": "^5.0.5",
+    "webpack": "^5.111.1",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^6.0.0",
+    "xlsx": "^0.18.5"
+  },
+  "dependencies": {
+    "i18next": "^26.4.2",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.2",
+    "opentype.js": "^2.0.0",
+    "react-i18next": "^17.0.15"
+  }
+}

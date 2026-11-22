@@ -1,0 +1,27 @@
+/* The play button that sits to the right of the one that generates the G-code, as tall as an
+   antd middle-size button so the row lines up. The green is antd's success colour, which reads
+   the same in either theme, so dark mode leaves this button alone (see theme.css). */
+.btn_play {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    background-color: #52c41a;
+    border: 1px solid #52c41a;
+    border-radius: 6px;
+    outline: none;
+    background-image: url(./images/play.svg);
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.btn_play:hover {
+    background-color: #73d13d;
+    border-color: #73d13d;
+}
+
+.btn_play:active {
+    background-color: #389e0d;
+    border-color: #389e0d;
+}

@@ -1,0 +1,92 @@
+const xlsx = require('xlsx');
+const fs = require('fs');
+const path = require('path');
+
+// Optional English corrections: the app shows the key itself for English, so this override
+// layer lets us fix spelling and grammar without renaming keys everywhere.
+let EN_FIXES = {};
+try {
+    EN_FIXES = JSON.parse(fs.readFileSync(path.join(__dirname, 'i18n_en_fixes.json'), 'utf8'));
+} catch (e) {
+    EN_FIXES = {};
+}
+
+// One sheet of two columns: English first, the target language second.
+const xlsx2json = (xlsxPath, targetDir) => {
+    if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, {recursive: true});
+    }
+
+    fs.access(xlsxPath, (err) => {
+        console.log(`Processing file: ${xlsxPath}`)
+        if (err) {
+            return console.log(`${xlsxPath} does not exist`);
+        }
+        let workBook = xlsx.readFile(xlsxPath, {raw: true});
+        if (!workBook) {
+            console.log(`${xlsxPath} read error`);
+            return
+        }
+        if (workBook.SheetNames === 0) {
+            console.log(`${xlsxPath} contains no sheets`);
+            return;
+        }
+
+        const sheet = workBook.Sheets[workBook.SheetNames[0]];
+        let sheetJson = xlsx.utils.sheet_to_json(sheet, {header: 0});
+        if (sheetJson.length <= 1) {
+            console.log(`sheetJson is empty`);
+            return;
+        }
+        const table = {};
+
+        for (const data of sheetJson) {
+            const enKey = data.en.trim();
+            Object.keys(data).forEach((language) => {
+                if (language in table) {
+                    table[language][enKey] = data[language].trim();
+                } else {
+                    const translate = {};
+                    translate[enKey] = data[language].trim();
+                    table[language] = translate;
+                }
+            });
+        }
+
+        // Apply the English corrections so they win over the xlsx values and
+        // cover strings that are not in the spreadsheet at all.
+        if (table.en && Object.keys(EN_FIXES).length) {
+            Object.keys(EN_FIXES).forEach(key => { table.en[key] = EN_FIXES[key]; });
+        }
+
+        Object.keys(table).forEach(language => {
+            fs.writeFileSync(`${targetDir}${language}.json`, JSON.stringify(table[language], null, 2));
+        });
+    });
+};
+
+const json2xlsx = (filePath, targetDir) => {
+    fs.access(filePath, (err) => {
+        console.log(`Processing file: ${filePath}`)
+        if (err) {
+            return console.log(`${filePath} does not exist`);
+        }
+        const language = filePath.slice(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.'));
+        const json = JSON.parse(fs.readFileSync(filePath))
+        const languageArray = [];
+        Object.keys(json).forEach(
+            (key) => {
+                const translate = {};
+                translate['en'] = key;
+                translate[language] = json[key];
+                languageArray.push(translate)
+            }
+        );
+        const workSheet = xlsx.utils.json_to_sheet(languageArray);
+        const workBook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(workBook, workSheet, "Sheet1");
+        xlsx.writeFile(workBook, `${targetDir}${language}.xlsx`);
+    });
+};
+
+module.exports = {xlsx2json, json2xlsx};

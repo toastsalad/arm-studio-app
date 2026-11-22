@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Icon for the "Image" button: a framed picture, its lower half inked in dashes so the frame reads as
+       tone rather than as another trace button. Same house style as svg.svg. -->
+  <g stroke="#3f3f3f" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="7" y="11" width="34" height="26" rx="3" fill="none" stroke-width="2.6"/>
+    <circle cx="17" cy="20" r="3.2" fill="#3f3f3f" stroke="none"/>
+    <path d="M9.5 33 C 16 25, 20 28, 24 32 C 27 35, 30 31, 38.5 24" fill="none" stroke-width="2.4"/>
+    <g stroke-width="2">
+      <path d="M11 37.5 H15"/>
+      <path d="M17.5 37.5 H21.5"/>
+      <path d="M24 37.5 H28"/>
+      <path d="M30.5 37.5 H34.5"/>
+      <path d="M37 37.5 H38.5"/>
+    </g>
+  </g>
+</svg>

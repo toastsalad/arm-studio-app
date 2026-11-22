@@ -1,0 +1,38 @@
+#server
+/server/node_modules
+/server/build-server
+/server/static/cache
+/server/static/userFonts
+/server/static/app_config.json
+/server/CuraEngine/config/active.def.json
+/server/static/code/my_projects
+/server/CuraEngine/config/fdmprinter.def.json
+# The cache and the user fonts are resolved from src/init.js, which puts them under server/src/static in
+# development and under the user data dir in the packaged app. Only the second spelling was ignored, so a run
+# of the server outside Electron left a cache tree that git offered to commit.
+/server/src/static/
+
+#web
+/web/node_modules
+/web/build-web
+
+#electron
+/electron/build-server
+/electron/build-web
+/electron/CuraEngine
+/electron/PlotterHelper
+/electron/node_modules
+/electron/output
+/electron/static
+/electron/package-lock.json
+
+# Release artifacts, rebuilt with PUBLISH.md
+/release-out/
+
+# Development Env (Jetbrains, Vim, macOS)
+.idea/
+*.swp
+.DS_Store
+
+# others
+/.eslintcache

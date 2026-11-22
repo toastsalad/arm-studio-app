@@ -1,0 +1,6 @@
+.stats {
+    display: block;
+    color: var(--app-text-secondary);
+    font-size: 13px;
+    white-space: nowrap;
+}

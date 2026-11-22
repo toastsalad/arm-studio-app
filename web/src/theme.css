@@ -1,0 +1,129 @@
+/* The theme for the surfaces the app draws itself: the --app-* colours, the fade over a theme
+ * change, the rule for artwork that has to be inverted rather than masked, and the guard that cuts
+ * the fade for someone who asked for less motion.
+ *
+ * antd's half of the app is themed with ConfigProvider in components/AppTheme, which is also where
+ * antd's own token values are set - several of them overlap these, and the note there says why the
+ * two cannot be aliased into one. The three.js canvases take a palette of their own from the
+ * --app-canvas-* values below, through utils/canvasPalette.js.
+ *
+ * The light values are the colours the app already used, so light mode is unchanged.
+ *
+ * One file on purpose: at this length the colours, the fade, the artwork rule and the motion guard
+ * are cheaper to work in together than in three files that all have to be imported. The antd
+ * slider overrides, which are the one thing here that is not ours to define, live with the
+ * provider that makes them. */
+:root {
+    --app-page-bg: #fefefe;
+    --app-panel-bg: #F2F2F2;
+    --app-subtle-bg: #f0f0f0;
+    --app-surface-bg: #ffffff;
+    --app-border: #C0C0C0;
+    --app-divider: #d9d9d9;
+    --app-text: #1f1f1f;
+    --app-text-secondary: #595959;
+    --app-text-muted: #888888;
+    --app-workspace-bg: lightgray;
+    --app-status-off: #b0b0b0;
+    --app-status-on: #2ecc40;
+    --app-accent: #1677ff;
+    /* Translucent sheet over the canvas, e.g. the leveling overlay. */
+    --app-overlay-bg: #FFFFFFA0;
+    /* The three.js canvases read these through utils/canvasPalette.js. They are a palette of
+       their own rather than the surface colours above: the imported picture is drawn into the
+       same scene, so a dark canvas cannot simply be the light one inverted. */
+    --app-canvas-clear: #fafafa;
+    --app-canvas-grid: #707070;
+    --app-canvas-grid-centre: #0000ff;
+    --app-canvas-axis-x: #ff0000;
+    --app-canvas-axis-y: #008000;
+    --app-canvas-work-area: #008000;
+    --app-canvas-target: #cd5c5c;
+    --app-canvas-drawing: #000000;
+    --app-canvas-handle: #000000;
+    /* The fill-style swatches are dark line art drawn for a light swatch. */
+    --app-swatch-filter: none;
+    /* Artwork that is drawn for a light surface and cannot be a mask (see .app-artwork). */
+    --app-icon-filter: none;
+    /* How long the theme change takes to fade, here and on the canvases: utils/theme.js reads the
+       same number as THEME_TRANSITION_MS. */
+    --app-theme-transition: 300ms;
+    color-scheme: light;
+}
+
+[data-theme="dark"] {
+    --app-page-bg: #141414;
+    --app-panel-bg: #141414;
+    --app-subtle-bg: #1f1f1f;
+    --app-surface-bg: #1f1f1f;
+    --app-border: #303030;
+    --app-divider: #2a2a2a;
+    --app-text: rgba(255, 255, 255, 0.85);
+    --app-text-secondary: rgba(255, 255, 255, 0.65);
+    --app-text-muted: rgba(255, 255, 255, 0.45);
+    --app-workspace-bg: #0a0a0a;
+    --app-status-off: #4d4d4d;
+    --app-accent: #1677ff;
+    --app-overlay-bg: #000000A0;
+    --app-canvas-clear: #1c1c1c;
+    /* The grid is drawn at 15% opacity, so it has to be pale to read against the dark clear. */
+    --app-canvas-grid: #9a9a9a;
+    --app-canvas-grid-centre: #4d7bff;
+    /* The axes keep their identity - X red, Y green - brightened just enough to survive the dark. */
+    --app-canvas-axis-x: #ff5555;
+    --app-canvas-axis-y: #3fb950;
+    --app-canvas-work-area: #3fb950;
+    --app-canvas-target: #d98a8a;
+    /* The pen draws black; on a dark canvas the drawing becomes the light element. */
+    --app-canvas-drawing: #e6e6e6;
+    --app-canvas-handle: #e6e6e6;
+    --app-swatch-filter: invert(1);
+    --app-icon-filter: invert(1) hue-rotate(180deg);
+    color-scheme: dark;
+}
+
+html,
+body {
+    background-color: var(--app-page-bg);
+}
+
+/* The theme change fades rather than snapping, for --app-theme-transition. AppTheme puts this
+ * class on <html> for the length of the fade, so the transition is not left on every element for
+ * good - a permanent one would slow down hovers and state changes. Every colour that moves is
+ * covered by the one rule: ours from the variables above, and antd's, which it writes as CSS
+ * variables as well.
+ *
+ * :global() because this file is a CSS module: the class comes from JS, so it must not be hashed
+ * into a name the JS never writes. */
+html:global(.theme-switching) *,
+html:global(.theme-switching) *::before,
+html:global(.theme-switching) *::after {
+    transition: background-color var(--app-theme-transition) ease,
+                color var(--app-theme-transition) ease,
+                border-color var(--app-theme-transition) ease,
+                outline-color var(--app-theme-transition) ease,
+                box-shadow var(--app-theme-transition) ease,
+                fill var(--app-theme-transition) ease,
+                stroke var(--app-theme-transition) ease,
+                filter var(--app-theme-transition) ease !important;
+}
+
+/* Cut down on motion: change, but do not animate. */
+@media (prefers-reduced-motion: reduce) {
+    html:global(.theme-switching) *,
+    html:global(.theme-switching) *::before,
+    html:global(.theme-switching) *::after {
+        transition: none !important;
+    }
+}
+
+/* Not every drawing can be a mask. The file-type illustrations and the example and print-setting
+   thumbnails carry more than one tone - a white fill inside a dark outline, or a gradient - and a
+   mask would flatten them into a silhouette. Those are marked :global(.app-artwork) where they are
+   rendered and inverted instead. The marker sits on the element rather than in a list here, so an
+   element is either artwork that flips or it is not, and nothing has to be added to this file when
+   a new one appears. */
+[data-theme="dark"] :global(.app-artwork) {
+    filter: var(--app-icon-filter);
+}
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>play</title>
+    <desc>White on the button's green, so it reads the same in either theme. The stroke of the
+    same colour is what rounds the corners.</desc>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M8,5 L19,12 L8,19 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="4"
+              stroke-linejoin="round"></path>
+    </g>
+</svg>

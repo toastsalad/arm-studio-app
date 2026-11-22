@@ -1,0 +1,17 @@
+:global(.ant-collapse-content .ant-collapse-content-box) {
+    background-color: var(--app-subtle-bg);
+    padding: 3px;
+}
+
+:global(.ant-tabs-top .ant-tabs-nav) {
+    margin: 0;
+}
+
+:global(.ant-tabs-tab) {
+    margin: 0 10px 0 10px;
+}
+
+:global(.ant-modal-body) {
+    max-height: 600px;
+    overflow: auto
+}

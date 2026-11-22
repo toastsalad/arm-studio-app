@@ -1,0 +1,12 @@
+/* The global .ant-modal-body rule scrolls every dialog, which would nest a
+   second scrollbar inside .scroll_area below. Leave the body at its natural
+   height here and let the single inner region do the scrolling. */
+.modal_body:global(.ant-modal-body) {
+    max-height: none;
+    overflow: visible;
+}
+
+.scroll_area {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}

@@ -1,0 +1,22 @@
+/* antd draws the slider from low-opacity fills, which all but vanish against the dark panel. These
+   override the colours of a component antd themes, so they live beside the provider that produces
+   them rather than in the palette file.
+
+   The antd class names go through :global() because this file is a CSS module, and through
+   .ant-slider as well as the part so the rule outranks antd's own two-class one. */
+[data-theme="dark"] :global(.ant-slider) :global(.ant-slider-rail) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] :global(.ant-slider) :global(.ant-slider-track) {
+    background-color: var(--app-accent);
+}
+
+[data-theme="dark"] :global(.ant-slider) :global(.ant-slider-handle) {
+    background-color: var(--app-surface-bg);
+    border-color: var(--app-accent);
+}
+
+[data-theme="dark"] :global(.ant-slider) :global(.ant-slider-handle)::after {
+    box-shadow: 0 0 0 2px var(--app-accent);
+}

@@ -1,0 +1,13 @@
+.style_default {
+    max-width: 320px;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    display: block;
+    /* react-tooltip's default theme sits at 0.9 opacity, which reads as
+       see-through against the page. Force it fully opaque. */
+    --rt-opacity: 1;
+    /* react-tooltip puts no z-index on the tooltip itself, so it stacked by DOM
+       order and antd's popups (Select dropdowns and friends sit around 1050)
+       drew over it. Keep it above them. */
+    z-index: 9999;
+}

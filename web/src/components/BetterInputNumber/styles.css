@@ -1,0 +1,6 @@
+/* The value sits beside a slider or a jog control, so centre it. antd pins text-align on the inner
+   input with a (0,2,0) selector, so the wrapper class and the input's own class are both needed to
+   win - setting textAlign on the component only reaches the wrapper. */
+.centered input:global(.ant-input-number-input) {
+    text-align: center;
+}
